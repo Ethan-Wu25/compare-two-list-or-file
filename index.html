@@ -1,34 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>List Comparator Tool</title>
+  <title>List Comparator</title>
 
-  <!-- SEO & Google Ads Friendly -->
-  <meta name="description" content="Compare two lists online. Upload files or paste text. Find differences and similarities instantly.">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow" />
-
-  <!-- Google Ads placeholder script (replace later)
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle
   <style>
     :root {
       --bg: #0f172a;
       --card: #111827;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
       --accent: #6366f1;
+      --green: #22c55e;
       --red: #ef4444;
       --blue: #3b82f6;
-      --green: #22c55e;
-    }
-
-    [data-theme="light"] {
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted: #475569;
-      --accent: #4f46e5;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
     }
 
     * {
@@ -38,220 +23,204 @@
 
     body {
       margin: 0;
-      background: var(--bg);
+      background: radial-gradient(circle at top, #1e293b, var(--bg));
       color: var(--text);
-      padding: 24px;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+      padding: 40px;
     }
 
     h1 {
-      font-size: 24px;
-      margin: 0;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 700;
     }
-
-    button {
-      background: var(--accent);
-      border: none;
-      color: white;
-      padding: 8px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    button:hover { opacity: 0.9; }
 
     .container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: auto;
       display: grid;
-      gap: 20px;
+      gap: 24px;
     }
 
     .card {
       background: var(--card);
-      padding: 18px;
-      border-radius: 14px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.15);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
     .inputs {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 20px;
     }
 
     textarea {
       width: 100%;
-      min-height: 160px;
-      background: transparent;
+      min-height: 180px;
+      background: #020617;
       color: var(--text);
-      border: 1px solid var(--muted);
-      border-radius: 10px;
-      padding: 12px;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      padding: 14px;
+      resize: vertical;
+      font-size: 14px;
     }
 
-    input[type="file"] {
-      margin-top: 8px;
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
     }
 
     .actions {
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
       margin-top: 10px;
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 10px 20px rgba(99,102,241,0.35);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(99,102,241,0.55);
     }
 
     .results {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
     }
 
-    ul {
+    .result h3 {
+      margin-top: 0;
+      font-size: 16px;
+    }
+
+    .list {
+      margin: 0;
       padding-left: 0;
       list-style: none;
     }
 
-    li {
+    .list li {
       padding: 6px 10px;
       border-radius: 8px;
       margin-bottom: 6px;
       font-size: 14px;
     }
 
-    .onlyA { background: rgba(239,68,68,.15); color: var(--red); }
-    .onlyB { background: rgba(59,130,246,.15); color: var(--blue); }
-    .both  { background: rgba(34,197,94,.15); color: var(--green); }
-    .union { background: rgba(99,102,241,.15); }
+    .only-a { background: rgba(239,68,68,0.15); color: var(--red); }
+    .only-b { background: rgba(59,130,246,0.15); color: var(--blue); }
+    .both   { background: rgba(34,197,94,0.15); color: var(--green); }
+    .union  { background: rgba(99,102,241,0.12); color: #c7d2fe; }
 
     footer {
       text-align: center;
+      margin-top: 30px;
       color: var(--muted);
       font-size: 12px;
-      margin-top: 30px;
-    }
-
-    /* Google Ads placeholder */
-    .ads {
-      height: 90px;
-      border: 1px dashed var(--muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      margin-top: 20px;
     }
   </style>
 </head>
 
 <body>
-<header>
-  <h1>List Comparator</h1>
-  <button onclick="toggleTheme()">🌙 / ☀️</button>
-</header>
 
-<div class="container">
+  <h1>🔍 List Comparator</h1>
 
-  <div class="card inputs">
-    <div>
-      <h3>List A</h3>
-      <textarea id="listA"></textarea>
-      <input type="file" accept=".txt" onchange="loadFile(event, 'listA')" />
+  <div class="container">
+
+    <div class="card inputs">
+      <div>
+        <h3>List A</h3>
+        <textarea id="listA" placeholder="One item per line"></textarea>
+      </div>
+      <div>
+        <h3>List B</h3>
+        <textarea id="listB" placeholder="One item per line"></textarea>
+      </div>
     </div>
 
-    <div>
-      <h3>List B</h3>
-      <textarea id="listB"></textarea>
-      <input type="file" accept=".txt" onchange="loadFile(event, 'listB')" />
+    <div class="actions">
+      <button onclick="compare()">Compare Lists</button>
     </div>
+
+    <div class="results">
+
+      <div class="card result">
+        <h3>Only in A</h3>
+        <ul id="onlyA" class="list"></ul>
+      </div>
+
+      <div class="card result">
+        <h3>Only in B</h3>
+        <ul id="onlyB" class="list"></ul>
+      </div>
+
+      <div class="card result">
+        <h3>In both A and B</h3>
+        <ul id="both" class="list"></ul>
+      </div>
+
+      <div class="card result">
+        <h3>A or B (Union)</h3>
+        <ul id="union" class="list"></ul>
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="actions">
-    <button onclick="compare()">Compare</button>
-  </div>
+  <footer>Pure HTML · CSS · JavaScript</footer>
 
-  <div class="results">
-    <div class="card">
-      <h3>Only in A</h3>
-      <ul id="onlyA"></ul>
-    </div>
-    <div class="card">
-      <h3>Only in B</h3>
-      <ul id="onlyB"></ul>
-    </div>
-    <div class="card">
-      <h3>Both A & B</h3>
-      <ul id="both"></ul>
-    </div>
-    <div class="card">
-      <h3>A or B</h3>
-      <ul id="union"></ul>
-    </div>
-  </div>
+  <script>
+    function getList(id) {
+      return [...new Set(
+        document.getElementById(id).value
+          .split('\n')
+          .map(v => v.trim())
+          .filter(Boolean)
+      )];
+    }
 
-  <div class="ads">
-    Google AdSense Area
-  </div>
-</div>
+    function render(id, items, className) {
+      const el = document.getElementById(id);
+      el.innerHTML = '';
+      items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        li.className = className;
+        el.appendChild(li);
+      });
+    }
 
-<footer>
-  Built with pure HTML, CSS & JavaScript
-</footer>
+    function compare() {
+      const A = getList('listA');
+      const B = getList('listB');
 
-<script>
-  const root = document.documentElement;
+      const setA = new Set(A);
+      const setB = new Set(B);
 
-  function toggleTheme() {
-    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    root.dataset.theme = next;
-    localStorage.setItem('theme', next);
-  }
+      const onlyA = A.filter(x => !setB.has(x));
+      const onlyB = B.filter(x => !setA.has(x));
+      const both  = A.filter(x => setB.has(x));
+      const union = [...new Set([...A, ...B])];
 
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) root.dataset.theme = savedTheme;
+      render('onlyA', onlyA, 'only-a');
+      render('onlyB', onlyB, 'only-b');
+      render('both', both, 'both');
+      render('union', union, 'union');
+    }
+  </script>
 
-  function loadFile(e, target) {
-    const reader = new FileReader();
-    reader.onload = () => document.getElementById(target).value = reader.result;
-    reader.readAsText(e.target.files[0]);
-  }
-
-  function parse(id) {
-    return [...new Set(
-      document.getElementById(id).value
-        .split('\n')
-        .map(s => s.trim())
-        .filter(Boolean)
-    )];
-  }
-
-  function display(id, list, cls) {
-    const el = document.getElementById(id);
-    el.innerHTML = '';
-    list.forEach(v => {
-      const li = document.createElement('li');
-      li.textContent = v;
-      li.className = cls;
-      el.appendChild(li);
-    });
-  }
-
-  function compare() {
-    const A = parse('listA');
-    const B = parse('listB');
-    const setA = new Set(A);
-    const setB = new Set(B);
-
-    display('onlyA', A.filter(x => !setB.has(x)), 'onlyA');
-    display('onlyB', B.filter(x => !setA.has(x)), 'onlyB');
-    display('both', A.filter(x => setB.has(x)), 'both');
-    display('union', [...new Set([...A, ...B])], 'union');
-  }
-</script>
 </body>
 </html>
